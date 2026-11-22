@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>TikTok sign in | NuffSaid Poster</title>
+<link rel="stylesheet" href="style.css">
+<style>
+#code { font-family: ui-monospace, Consolas, monospace; background: #fff; border: 1px solid #ccc; border-radius: 8px; padding: 12px; word-break: break-all; }
+button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid #16181d; background: #16181d; color: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+<h1>TikTok sign in</h1>
+<p id="msg">Reading the sign in result.</p>
+<div id="box" hidden>
+<p>Copy this one time code and paste it into the NuffSaid sign in script in your terminal. It expires in a few minutes and only works with the app's secret.</p>
+<p id="code"></p>
+<p><button id="copy" type="button">Copy code</button></p>
+</div>
+</main>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var code = q.get("code"), err = q.get("error"), msg = document.getElementById("msg");
+  if (err) { msg.textContent = "TikTok returned an error: " + err + (q.get("error_description") ? " (" + q.get("error_description") + ")" : ""); return; }
+  if (!code) { msg.textContent = "No sign in code found. Start again from the sign in script."; return; }
+  msg.textContent = "Signed in. One step left.";
+  document.getElementById("code").textContent = code;
+  document.getElementById("box").hidden = false;
+  document.getElementById("copy").onclick = function () {
+    navigator.clipboard.writeText(code).then(function () { document.getElementById("copy").textContent = "Copied"; });
+  };
+  history.replaceState(null, "", location.pathname);
+})();
+</script>
+</body>
+</html>
